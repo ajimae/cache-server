@@ -1,4 +1,5 @@
 const needle = require("needle")
+const { client } = require('../client')
 
 const API_KEY = process.env.API_KEY
 const API_BASE_URL = process.env.API_BASE_URL
