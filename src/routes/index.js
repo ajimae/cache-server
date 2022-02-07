@@ -1,9 +1,9 @@
 const { Router } = require("express")
 const { getWeather } = require("../controller")
-const { limiter } = require('../middleware')
+const { limiter, cache } = require('../middleware')
 
 const routes = Router()
 
-routes.get('/', limiter, getWeather)
+routes.get('/', limiter, cache, getWeather)
 
 module.exports = routes

@@ -20,7 +20,7 @@ module.exports.getNewsData = async function (coin = 'bitcoin', date = _date) {
     })
 
     // set data to redis
-    await setAsync('redis-cache-news-data', JSON.stringify(response))
+    await setAsync('redis-cache-news-data', JSON.stringify(response.body))
     return response
   } catch (e) {
     console.log(e)
