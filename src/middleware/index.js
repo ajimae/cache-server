@@ -6,13 +6,11 @@ module.exports.limiter = rateLimit({
   max: 15 // 10 requests
 })
 
-module.exports.cache = async function(request, response, next) {
+module.exports.cache = async function (request, response, next) {
   const cache = await getAsync('redis-cache-news-data')
-  console.log(cache)
-  if (cache) {
+  if (cache)
     return response.status(200).json({
-      ...JSON.parse(cache.body)
+      ...JSON.parse(cache)
     })
-  }
   next()
 }

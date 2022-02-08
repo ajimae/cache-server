@@ -1,8 +1,8 @@
 const { getNewsData } = require("../repository")
 
-module.exports.getWeather = async function(request, response, next) {
+module.exports.getNewsData = async function(request, response) {
   const data = await getNewsData()
   return response.status(200).json({
-    ...data.body
+    ...data
   })
 }

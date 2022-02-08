@@ -7,13 +7,15 @@ const API_BASE_URL = process.env.API_BASE_URL
 const now = new Date()
 const _date = now.setDate(now.getDate() - 3)
 
-// client.setAsync = promisify(client.set)
-// client.getAsync = promisify(client.get)
-
 module.exports.getNewsData = async function (coin = 'bitcoin', date = _date) {
   try {
+    // try getting data from cache
+    let response = await getAsync('redis-cache-news-data')
+    if (response) return JSON.parse(response) 
+
+    console.log('don\'nt get here ---------->', response)
     const url = `${API_BASE_URL}/everything?qInTitle=${coin}&from=${date}&sortBy=publishedAt&language=en`
-    const response = needle('get', url, {
+    response = await needle('get', url, {
       headers: {
         "x-api-key": API_KEY
       }
@@ -21,7 +23,7 @@ module.exports.getNewsData = async function (coin = 'bitcoin', date = _date) {
 
     // set data to redis
     await setAsync('redis-cache-news-data', JSON.stringify(response.body))
-    return response
+    return response.body
   } catch (e) {
     console.log(e)
   }
